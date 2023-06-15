@@ -1,29 +1,44 @@
-import {DataTypes} from "sequelize";
-import sequelize from '../connection'
+import * as bcrypt from 'bcryptjs';
+import {AutoIncrement, BeforeCreate, Column, HasMany, PrimaryKey, Table} from "sequelize-typescript";
+import BaseModel from "./BaseModel";
+import {Service} from "typedi";
 import History from "./History";
+import {DataTypes} from "sequelize";
 
-const User = sequelize.define('User', {
-    id: {
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
-        type: DataTypes.INTEGER,
-    },
-    name: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-},{
+@Table({
     tableName: 'users',
-    timestamps: true
 })
-User.hasMany(History)
-export default User;
+@Service()
+export default class User extends BaseModel {
+    @PrimaryKey
+    @AutoIncrement
+    @Column
+    id: number;
+
+    @Column({
+        allowNull: false,
+        type: DataTypes.STRING,
+    })
+    name: string
+
+    @Column({
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: true,
+    })
+    email: string
+
+    @Column({
+        allowNull: false,
+        type: DataTypes.STRING,
+    })
+    password: string
+
+    @BeforeCreate
+    static hashPassword(user: User) {
+        user.password = bcrypt.hashSync(user.password);
+    }
+
+    @HasMany(() => History, { as: 'history' })
+    history?: History[];
+}

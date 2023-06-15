@@ -1,5 +1,5 @@
-import {Sequelize} from "sequelize";
-
+import { Sequelize } from 'sequelize-typescript';
+import models from './model'
 require('dotenv').config({
     path: `${process.cwd()}/.env.local`,
 });
@@ -12,17 +12,14 @@ const {
     DB_PORT
 } = process.env;
 
-const sequelizeCon = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PASSWORD, {
+const sequelizeCon = new Sequelize({
     host: DB_HOST,
     port: Number(DB_PORT || 3306),
+    database: DB_DATABASE,
     dialect: 'mysql',
-    logging: false
+    username: DB_USERNAME,
+    password: DB_PASSWORD,
+    logging: false,
+    models: [...models], // or [Player, Team],
 })
-try {
-    sequelizeCon.authenticate()
-}
-catch (err){
-    console.log('Error connecting to database', err)
-    throw new Error("Error connecting to database")
-}
 export default sequelizeCon

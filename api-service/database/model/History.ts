@@ -1,49 +1,71 @@
 import {DataTypes} from "sequelize";
-import sequelize from '../connection'
+import BaseModel from "./BaseModel";
+import {AutoIncrement, BelongsTo, Column, ForeignKey, HasMany, PrimaryKey, Table} from "sequelize-typescript";
 import User from "./User";
+import {Service} from "typedi";
 
-const History = sequelize.define('History', {
-    id: {
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
-        type: DataTypes.INTEGER,
-    },
-    symbol: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    time: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    open: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
-    },
-    high: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
-    },
-    low: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
-    },
-    close: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
-    },
-    volume: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-},{
+@Table({
     tableName: 'history',
-    timestamps: true
 })
-History.belongsTo(User)
-export default History;
+@Service()
+export default class History extends BaseModel {
+    @PrimaryKey
+    @AutoIncrement
+    @Column
+    id: number;
+
+    @Column
+    @ForeignKey(() => User)
+    userId: number;
+
+    @Column({
+        allowNull: false,
+        type: DataTypes.STRING,
+    })
+    name: string
+
+    @Column({
+        allowNull: false,
+        type: DataTypes.STRING,
+    })
+    symbol: string
+
+    @Column({
+        allowNull: false,
+        type: DataTypes.STRING,
+    })
+    time: string
+
+    @Column({
+        allowNull: false,
+        type: DataTypes.DECIMAL
+    })
+    open: number
+
+    @Column({
+        allowNull: false,
+        type: DataTypes.DECIMAL
+    })
+    high: number
+
+    @Column({
+        allowNull: false,
+        type: DataTypes.DECIMAL
+    })
+    low: number
+
+    @Column({
+        allowNull: false,
+        type: DataTypes.DECIMAL
+    })
+    close: number
+
+    @Column({
+        allowNull: false,
+        type: DataTypes.INTEGER
+    })
+    volume: number
+
+    @BelongsTo(() => User, { as: 'user' })
+    user?: User;
+}

@@ -1,9 +1,11 @@
+import 'reflect-metadata';
 import app from './app'
 import http from "http";
+import connection from "./database/connection";
 
 const server = http.createServer(app);
-const port = process.env.PORT || '3000';
-function onError(error) {
+const port = process.env.PORT || '3009';
+const onError = (error: any) => {
     if (error.syscall !== 'listen') {
         throw error;
     }
@@ -26,18 +28,22 @@ function onError(error) {
             throw error;
     }
 }
-
-function onListening() {
+const onListening = () => {
     const addr = server.address();
     const bind = typeof addr === 'string'
         ? 'pipe ' + addr
-        : 'port ' + addr.port;
+        : 'port ' + addr?.port;
     console.log('Listening on ' + bind);
 }
-
-/**
- * Listen on provided port, on all network interfaces.
- */
+const startApp = async (): Promise<void> => {
+    try{
+        await connection.sync()
+    }catch (err){
+        console.error(err);
+        //process.exit(1);
+    }
+}
+void startApp();
 
 server.listen(port);
 server.on('error', onError);
