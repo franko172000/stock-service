@@ -2,7 +2,7 @@ const createError = require('http-errors');
 const express = require('express');
 const logger = require('morgan');
 
-const indexRouter = require('./routes/index');
+const indexRouter = require('../routes/index');
 
 const app = express();
 
