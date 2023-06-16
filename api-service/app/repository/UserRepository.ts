@@ -11,4 +11,12 @@ export default class UserRepository {
             password: user.password
         }).save()
     }
+
+    async find (email: string): Promise<User|null>{
+        return User.findOne({
+            where: {
+                email,
+            }
+        })
+    }
 }

@@ -16,8 +16,11 @@ class AuthController {
             token
         })
     }
-    async logout(){
-
+    async logout(req: Request, res: Response){
+        //@ts-ignore
+        await this.authService.logout(req?.token)
+        //@ts-ignore
+        return res.json({message: 'Logged out'})
     }
 }
 export default Container.get(AuthController)

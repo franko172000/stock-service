@@ -1,8 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
 import models from './model'
-require('dotenv').config({
-    path: `${process.cwd()}/.env.local`,
-});
 
 const {
     DB_USERNAME,

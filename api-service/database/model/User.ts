@@ -2,7 +2,7 @@ import * as bcrypt from 'bcryptjs';
 import {AutoIncrement, BeforeCreate, Column, HasMany, PrimaryKey, Table} from "sequelize-typescript";
 import BaseModel from "./BaseModel";
 import {Service} from "typedi";
-import History from "./History";
+import Stock from "./Stock";
 import {DataTypes} from "sequelize";
 
 @Table({
@@ -39,6 +39,6 @@ export default class User extends BaseModel {
         user.password = bcrypt.hashSync(user.password);
     }
 
-    @HasMany(() => History, { as: 'history' })
-    history?: History[];
+    @HasMany(() => Stock, { as: 'history' })
+    history?: Stock[];
 }

@@ -1,8 +1,11 @@
-import * as createError from 'http-errors';
-import express, {Request, Response, NextFunction} from 'express';
+import express from 'express';
 const logger = require('morgan');
-
 import routes from '../routes';
+
+//load environment vars
+require('dotenv').config({
+  path: `${process.cwd()}/.env.local`,
+});
 
 const app = express();
 
@@ -10,22 +13,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/', routes);
-
-// catch 404 and forward to error handler
-app.use(function(req:Request , res: Response, next: NextFunction) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err: any, req:Request , res: Response) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+app.use('/api/', routes);
 
 export default app;

@@ -1,6 +1,8 @@
-import History from "./History";
+import Stock from "./Stock";
 import User from "./User";
+import TokenBlacklist from "./TokenBlacklist";
 export default [
-    History,
-    User
+    Stock,
+    User,
+    TokenBlacklist
 ]

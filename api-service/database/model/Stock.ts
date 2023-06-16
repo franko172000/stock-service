@@ -8,7 +8,7 @@ import {Service} from "typedi";
     tableName: 'history',
 })
 @Service()
-export default class History extends BaseModel {
+export default class Stock extends BaseModel {
     @PrimaryKey
     @AutoIncrement
     @Column
@@ -65,6 +65,12 @@ export default class History extends BaseModel {
         type: DataTypes.INTEGER
     })
     volume: number
+
+    @Column({
+        allowNull: false,
+        type: DataTypes.STRING
+    })
+    date: string
 
     @BelongsTo(() => User, { as: 'user' })
     user?: User;
