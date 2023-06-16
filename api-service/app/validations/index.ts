@@ -10,3 +10,10 @@ export const registerValidation = {
             .required(),
     }),
 }
+
+export const queryParamValidation = {
+    query: Joi.object({
+        q: Joi.string()
+            .required()
+    }),
+}
