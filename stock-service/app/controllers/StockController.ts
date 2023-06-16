@@ -9,7 +9,7 @@ class StockController {
         const {code} = req.query
         try{
             //@ts-ignore
-            const stock = await this.stockService.getStock(stock_code as string)
+            const stock = await this.stockService.getStock(code as string)
             return res.json(stock)
         }catch (err){
             next(err)

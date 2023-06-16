@@ -10,4 +10,9 @@ export interface IStock {
     volume: number
 }
 
+export interface IStockAgg {
+    times_requested: number,
+    stock: string,
+}
+
 export interface IStockResponse extends Omit<IStock, 'volume' | 'date' | 'time'>{}

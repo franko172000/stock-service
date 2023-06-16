@@ -1,5 +1,5 @@
 import AuthService from "../services/AuthService";
-import {Request, Response} from 'express';
+import {NextFunction, Request, Response} from 'express';
 import {Container, Service} from "typedi";
 
 @Service()
@@ -15,6 +15,19 @@ class AuthController {
         return res.json({
             token
         })
+    }
+    async login(req: Request, res: Response, next: NextFunction){
+        const {email, password} = req.body
+        try{
+            //@ts-ignore
+            const token =await this.authService.login({
+                email,
+                password
+            })
+            return res.json({token})
+        }catch (err: any){
+            next(err)
+        }
     }
     async logout(req: Request, res: Response){
         //@ts-ignore

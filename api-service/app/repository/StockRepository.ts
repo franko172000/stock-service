@@ -1,6 +1,6 @@
 import {Service} from "typedi";
 import Stock from "../../database/model/Stock";
-import {IStock} from "../../Interfaces/StockInterface";
+import {IStock, IStockAgg} from "../../Interfaces/StockInterface";
 
 @Service()
 export default class StockRepository {
@@ -20,7 +20,7 @@ export default class StockRepository {
         })
     }
 
-    async aggregate (userId: number){
+    async aggregate (userId: number): Promise<any>{
         return Stock.sequelize?.query(`SELECT COUNT(id) as times_requested, name as stock FROM history WHERE user_id=${userId} GROUP BY stock `)
     }
 }

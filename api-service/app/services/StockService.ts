@@ -2,17 +2,16 @@ import {Service} from "typedi";
 import StockRepository from "../repository/StockRepository";
 import axios from 'axios';
 import {IStockResponse} from "../../Interfaces/StockInterface";
+import AppError from "../Errors/AppError";
 
 @Service()
 export default class StockService{
-    private readonly stockPath
-    constructor(private readonly stockRepo: StockRepository) {
-        this.stockPath = process.env.STOCK_SERVICE_BASE_URL
-    }
+    constructor(private readonly stockRepo: StockRepository) {}
 
     async getStock(code: string, userId: number): Promise<IStockResponse | null>{
         try{
-            const {data} = await axios.get(`${this.stockPath}/stock?code=${code}`)
+            const {data} = await axios.get(`${process.env.STOCK_SERVICE_BASE_URL}/stock?code=${code}`)
+            //save record to db
             const stock = await this.stockRepo.add({
                 name: data.name,
                 symbol: data.symbol,
@@ -24,6 +23,7 @@ export default class StockService{
                 date: data.date,
                 volume: data.volume
             }, userId);
+
             const  { name, high,low, symbol, close } = stock
             return {
                 name,
@@ -32,10 +32,9 @@ export default class StockService{
                 symbol,
                 close,
             } as IStockResponse
-        }catch (err){
-            console.log(err)
+        }catch (err: any){
+            throw new AppError({message: err.message})
         }
-        return null;
     }
     async list (userId:number){
         return this.stockRepo.list(userId);

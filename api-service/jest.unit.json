@@ -1,0 +1,22 @@
+{
+    "globals": {
+        "ts-jest": {
+            "useESM": false,
+            "tsconfig": "tsconfig.json"
+        }
+    },
+    "moduleFileExtensions": ["js", "json", "ts"],
+    "rootDir": ".",
+    "testEnvironment": "node",
+    "testRegex": "./test/unit/.*.spec.ts$",
+    "verbose": true,
+    "transform": {
+        "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "setupFiles": ["<rootDir>/test/test.env-setup.ts"],
+    "moduleDirectories": ["node_modules", "src", "test", "config"],
+    "moduleNameMapper": {
+        "Test/(.*)": "<rootDir>/test/$1",
+        "^src/(.*)$": "<rootDir>/$1"
+    }
+}

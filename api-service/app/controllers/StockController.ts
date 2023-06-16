@@ -1,18 +1,19 @@
-import {Request, Response} from 'express';
+import {NextFunction, Request, Response} from 'express';
 import {Container, Service} from "typedi";
 import StockService from "../services/StockService";
 
 @Service()
 class StockController {
     constructor(private readonly stockService: StockService) {}
-    async getStock(req: Request, res: Response) {
+    async getStock(req: Request, res: Response, next: NextFunction) {
         const {q} = req.query
-        //@ts-ignore
-        const stock = await this.stockService.getStock(q as string, req?.user?.id as number)
-        if(stock){
+        try{
+            //@ts-ignore
+            const stock = await this.stockService.getStock(q as string, req?.user?.id as number)
             return res.json(stock)
+        }catch (err: any){
+            next(err)
         }
-        return res.json({error: 'Error fetching stock'}).status(500)
     }
 
     async getHistory(req: Request, res: Response) {
