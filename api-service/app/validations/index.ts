@@ -1,4 +1,4 @@
-const { validate, ValidationError, Joi } = require('express-validation')
+import { validate, ValidationError, Joi } from 'express-validation'
 export const registerValidation = {
     body: Joi.object({
         email: Joi.string()

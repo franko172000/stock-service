@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import app from './app'
 import connection from "./database/connection";
 import ErrorHandler from "./app/Errors/ErrorHandler";
-const port = process.env.PORT || '3009';
+const port = process.env.APP_PORT || '3009';
 
 const startApp = async (): Promise<void> => {
     try{

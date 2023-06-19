@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/server.js",
+    "start": "node build/server.js",
     "dev": "nodemon server.ts",
     "test:unit": "jest --config jest.unit.json"
   },
@@ -19,6 +19,7 @@
     "debug": "~2.6.9",
     "dotenv": "^16.1.4",
     "express": "~4.16.1",
+    "express-validation": "^4.1.0",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^9.0.0",
     "morgan": "~1.9.1",

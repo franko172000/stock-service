@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+    jobsity-api:
+        build:
+            context: ./api-service
+            dockerfile: Dockerfile
+        volumes:
+            - ./api-service:/usr/src/app
+        environment:
+            NODE_ENV: 'docker'
+        networks:
+            - jobsity
+        ports:
+            - '3000:3000'
+        depends_on:
+            mysql-db:
+                condition: service_healthy
+    stock-service:
+        build:
+            context: ./stock-service
+            dockerfile: Dockerfile
+        volumes:
+            - ./stock-service:/usr/src/app
+        environment:
+            NODE_ENV: 'docker'
+        networks:
+            - jobsity
+        depends_on:
+            mysql-db:
+                condition: service_healthy
+    mysql-db:
+        platform: linux/x86_64
+        image: mysql:5.7
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: 'jobsity'
+            MYSQL_USER: 'jobsity'
+            MYSQL_DATABASE: 'jobsity_db'
+            MYSQL_PASSWORD: 'jobsity'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        volumes:
+            - mysqldata:/var/lib/mysql/
+        networks:
+            - jobsity
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping", "-pjobsity" ]
+            retries: 3
+            timeout: 5s
+        ports:
+            - '3306:3306'
+
+networks:
+    jobsity:
+        driver: bridge
+volumes:
+    mysqldata:
+        driver: local
