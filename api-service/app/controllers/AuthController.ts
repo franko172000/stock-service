@@ -5,18 +5,23 @@ import {Container, Service} from "typedi";
 @Service()
 class AuthController {
     constructor(private readonly authService: AuthService) {}
-    async register(req: Request, res: Response) {
+    async register(req: Request, res: Response, next: NextFunction) {
         const {name, email, password} = req.body
-
-        const token = await this.authService.register({
-            name,
-            email,
-            password
-        });
-        return res.status(201).json({
-            token
-        })
+        try{
+            //@ts-ignore
+            const token = await this.authService.register({
+                name,
+                email,
+                password
+            });
+            return res.status(201).json({
+                token
+            })
+        }catch (err: any){
+            next(err)
+        }
     }
+
     async login(req: Request, res: Response, next: NextFunction){
         const {email, password} = req.body
         try{

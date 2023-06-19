@@ -11,7 +11,7 @@ services:
         networks:
             - jobsity
         ports:
-            - '8090:3000'
+            - '8090:8090'
         depends_on:
             mysql-db:
                 condition: service_healthy
@@ -48,6 +48,19 @@ services:
             timeout: 5s
         ports:
             - '3306:3306'
+    mailhog:
+        image: mailhog/mailhog:latest
+        restart: always
+        networks:
+            - jobsity
+        healthcheck:
+            test: [ "CMD", "echo | telnet 127.0.0.1 8025" ]
+            interval: 1m30s
+            timeout: 5s
+            retries: 3
+        ports:
+            - 1025:1025
+            - 8025:8025
 
 networks:
     jobsity:

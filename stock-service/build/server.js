@@ -11,5 +11,5 @@ const port = process.env.APP_PORT || '3002';
 ErrorHandler_1.default.init(app_1.default);
 //start application
 app_1.default.listen(port, () => {
-    console.log("Server running on port - " + port);
+    console.log("Stock service is running " + port + " and ready for connection");
 });

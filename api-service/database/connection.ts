@@ -9,14 +9,6 @@ const {
     DB_PORT
 } = process.env;
 
-console.log("API Service App Loaded DB Environment - ", JSON.stringify({
-    DB_USERNAME,
-    DB_PASSWORD,
-    DB_DATABASE,
-    DB_HOST,
-    DB_PORT
-}))
-
 const sequelizeCon = new Sequelize({
     host: DB_HOST,
     port: Number(DB_PORT || 3306),

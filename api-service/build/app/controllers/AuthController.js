@@ -27,17 +27,23 @@ let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
-    register(req, res) {
+    register(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const { name, email, password } = req.body;
-            const token = yield this.authService.register({
-                name,
-                email,
-                password
-            });
-            return res.status(201).json({
-                token
-            });
+            try {
+                //@ts-ignore
+                const token = yield this.authService.register({
+                    name,
+                    email,
+                    password
+                });
+                return res.status(201).json({
+                    token
+                });
+            }
+            catch (err) {
+                next(err);
+            }
         });
     }
     login(req, res, next) {

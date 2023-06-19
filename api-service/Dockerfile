@@ -19,7 +19,7 @@ RUN npm run build
 
 ENV NODE_ENV docker
 
-EXPOSE 3000
+EXPOSE 8090
 
 ENTRYPOINT ["npm", "start"]
 

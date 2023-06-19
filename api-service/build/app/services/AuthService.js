@@ -59,8 +59,12 @@ let AuthService = class AuthService {
     }
     register(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.userRepo.addUser(data);
-            return TokenService_1.default.generateToken(user.id);
+            const user = yield this.userRepo.find(data.email);
+            if (!user) {
+                const user = yield this.userRepo.addUser(data);
+                return TokenService_1.default.generateToken(user.id);
+            }
+            throw new AppError_1.default({ statusCode: 409, message: "Email already exists" });
         });
     }
     login({ email, password }) {
@@ -87,7 +91,7 @@ let AuthService = class AuthService {
                 <p>You requested for a password reset, please enter the conde below on the password reset page to reset your password</p>
                 <p><b>${code}</b></p>
             `;
-                this.mailer.sendMail('Password reset', message, email);
+                yield this.mailer.sendMail('Password reset', message, email);
                 return;
             }
             throw new AppError_1.default({ statusCode: 404, message: 'Email does not exist!' });

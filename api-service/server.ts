@@ -12,7 +12,7 @@ const startApp = async (): Promise<void> => {
 
         //start application
         app.listen(port, ()=>{
-            console.log("Server running on port - " + port)
+            console.log("Api service is running at port "+port+" and ready for connection")
         })
     }catch (err){
         console.error(err);

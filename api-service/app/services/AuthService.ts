@@ -17,9 +17,14 @@ export default class AuthService {
     ) {}
     async register(data: IUser): Promise<string> {
 
-        const user = await this.userRepo.addUser(data)
+        const user = await this.userRepo.find(data.email);
+        if(!user){
+            const user = await this.userRepo.addUser(data)
 
-        return TokenService.generateToken(user.id)
+            return TokenService.generateToken(user.id)
+        }
+
+        throw new AppError({statusCode: 409, message: "Email already exists"})
     }
     async login({email, password}: {
         email: string,
@@ -45,7 +50,7 @@ export default class AuthService {
                 <p>You requested for a password reset, please enter the conde below on the password reset page to reset your password</p>
                 <p><b>${code}</b></p>
             `
-            this.mailer.sendMail('Password reset', message, email)
+            await this.mailer.sendMail('Password reset', message, email)
             return
         }
         throw new AppError({statusCode: 404, message: 'Email does not exist!'})

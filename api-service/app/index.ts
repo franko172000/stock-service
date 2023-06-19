@@ -5,7 +5,8 @@ import routes from '../routes';
 import * as swaggerDocument from "../swagger.json";
 
 //load environment vars
-const env = process.env.NODE_ENV === 'test' ? 'test' : 'local';
+const nodeenv = process.env.NODE_ENV;
+const env = nodeenv === 'test' ? 'test' :  nodeenv === 'docker' ? 'docker' : 'local';
 require('dotenv').config({
   path: `${process.cwd()}/.env.${env}`,
 });

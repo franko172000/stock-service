@@ -24,7 +24,7 @@ const startApp = () => __awaiter(void 0, void 0, void 0, function* () {
         ErrorHandler_1.default.init(app_1.default);
         //start application
         app_1.default.listen(port, () => {
-            console.log("Server running on port - " + port);
+            console.log("Api service is running at port " + port + " and ready for connection");
         });
     }
     catch (err) {

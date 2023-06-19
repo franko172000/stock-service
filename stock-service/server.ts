@@ -8,5 +8,5 @@ ErrorHandler.init(app)
 
 //start application
 app.listen(port, ()=>{
-    console.log("Server running on port - " + port)
+    console.log("Stock service is running "+port+" and ready for connection")
 })
