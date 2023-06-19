@@ -5,7 +5,7 @@
     "version": "1.0.0"
   },
   "schemes": ["http"],
-  "servers": [{ "url": "http://localhost:3000/" }],
+  "servers": [{ "url": "http://localhost:3000/" }, { "url": "http://localhost:8090/" }],
   "paths": {
     "/api/auth/register": {
       "post": {
@@ -127,7 +127,7 @@
         }
       }
     },
-    "/stock": {
+    "/api/stock": {
       "get": {
         "summary": "Gets company stock prices",
         "description": "Gets company stock prices",
@@ -154,7 +154,7 @@
         }
       }
     },
-    "/stock/stats": {
+    "/api/stock/stats": {
       "get": {
         "summary": "Gets stock statistics",
         "description": "Gets stock statistics",
@@ -174,7 +174,7 @@
         }
       }
     },
-    "/stock/history": {
+    "/api/stock/history": {
       "get": {
         "summary": "Gets stock history",
         "description": "Gets stock history",

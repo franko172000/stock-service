@@ -71,6 +71,7 @@ let AuthController = class AuthController {
                 return res.json({ message: 'Password reset email has been sent' });
             }
             catch (err) {
+                console.log(err);
                 next(err);
             }
         });

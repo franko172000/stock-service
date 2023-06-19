@@ -1,24 +1,25 @@
 # Node.js Challenge
 
-## App Set up
+## App Set up using docker
 Clone this repository, navigate to the repository root and run the following commands.
 - Note: You need to have docker installed for the setup to work. To install docker, follow this link https://docs.docker.com/engine/install/
 
-## Docker
+#### Docker
 1. Start up docker containers
 ```bash
     sudo docker-compose up --build
 ```
-## Base URL
-[http://localhost:8090](http://localhost:8090)
+#### Base URL
+[http://localhost:8090](http://localhost:8090) <br />
 You can change the port number by changing the ``port`` variable in ``docker-compose.yml`` file
 
-## API Doc
-The api documentation can be found here
+#### API Doc
+The api documentation can be found here <br />
 [http://localhost:8090/api-docs](http://localhost:8090/api-docs)
 
+---
 
-## NPM Setup
+## App Setup via NPM commands
 1. Install dependencies
 ```bash
     cd api-service && npm install
@@ -27,7 +28,11 @@ The api documentation can be found here
     cd stock-service && npm install
 ```
 
-Setup database connection
+**Setup database connection** <br />
+update the ``.env.local`` to configure your database connection
+
+**Setup email connection** <br />
+update the ``.env.local`` to configure your email settings
 
 Build and start services
 ```bash
@@ -38,13 +43,17 @@ Build and start services
     cd stock-service && npm run build && npm start
 ```
 
-## Base URL
-[http://localhost:8090](http://localhost:3000)
-You can change the port number by changing the ``port`` variable in ``docker-compose.yml`` file
+#### Base URL for API Service
+[http://localhost:8090](http://localhost:3000) <br />
+You can change the port number by changing the ``APP_POST`` variable in ``.env.local`` file
 
-## API Doc
-The api documentation can be found here
-[http://localhost:8090/api-docs](http://localhost:8090/api-docs)
+#### Base URL for Stock Service
+[http://localhost:3002](http://localhost:3002) <br />
+You can change the port number by changing the ``APP_POST`` variable in ``.env.local`` file
+
+#### API Doc
+The api documentation can be found here <br />
+[http://localhost:3000/api-docs](http://localhost:3000/api-docs)
 
 
 ## Tests

@@ -43,6 +43,7 @@ class AuthController {
             await this.authService.resetPassword(email)
             return res.json({message: 'Password reset email has been sent'})
         }catch (err: any){
+            console.log(err)
             next(err)
         }
     }

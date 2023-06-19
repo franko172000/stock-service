@@ -25,14 +25,15 @@ let MailerService = class MailerService {
         return __awaiter(this, void 0, void 0, function* () {
             const mailer = nodemailer_1.default.createTransport({
                 host: process.env.MAIL_HOST,
-                port: 2525,
-                auth: {
-                    user: process.env.MAIL_USERNAME,
-                    pass: process.env.MAIL_PASSWORD
-                },
-                from: `${process.env.MAIL_FROM_NAME}<${process.env.MAIL_FROM_ADDRESS}>`,
+                port: Number(process.env.MAIL_PORT || 2525),
+                // auth: {
+                //     user: process.env.MAIL_USERNAME,
+                //     pass: process.env.MAIL_PASSWORD
+                // },
+                // from: `${process.env.MAIL_FROM_NAME}<${process.env.MAIL_FROM_ADDRESS}>`,
             });
             yield mailer.sendMail({
+                from: `${process.env.MAIL_FROM_NAME}<${process.env.MAIL_FROM_ADDRESS}>`,
                 to: to,
                 subject: subject,
                 html: message,
