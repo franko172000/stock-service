@@ -28,6 +28,7 @@ class StockController {
     async aggregate(req: Request, res: Response) {
         //@ts-ignore
         const stock = await this.stockService.aggregate(req?.user?.id as number)
+        console.log(stock)
         if(stock){
             return res.json(stock[0])
         }

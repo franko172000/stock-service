@@ -7,12 +7,13 @@ class AuthController {
     constructor(private readonly authService: AuthService) {}
     async register(req: Request, res: Response) {
         const {name, email, password} = req.body
+
         const token = await this.authService.register({
             name,
             email,
             password
         });
-        return res.json({
+        return res.status(201).json({
             token
         })
     }
@@ -25,6 +26,17 @@ class AuthController {
                 password
             })
             return res.json({token})
+        }catch (err: any){
+            next(err)
+        }
+    }
+
+    async resetPassword(req: Request, res: Response, next: NextFunction){
+        const {email} = req.body
+        try{
+            //@ts-ignore
+            await this.authService.resetPassword(email)
+            return res.json({message: 'Password reset email has been sent'})
         }catch (err: any){
             next(err)
         }

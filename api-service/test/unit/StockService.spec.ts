@@ -52,7 +52,7 @@ describe('Stock Service Test', ()=> {
             .resolves(stock)
 
         sinon.stub(axios, 'get')
-            .withArgs(`${process.env.STOCK_SERVICE_BASE_URL}/stock?code=${code}`)
+            .withArgs(`${process.env.STOCK_SERVICE_BASE_URL}/api/internal/stock?code=${code}`)
             .resolves(Promise.resolve({
                 data: stockData
             }))

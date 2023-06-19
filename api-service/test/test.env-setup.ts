@@ -1,4 +1,4 @@
 //load environment vars
 require('dotenv').config({
-    path: `${process.cwd()}/.env.local`,
+    path: `${process.cwd()}/.env.test`,
 });

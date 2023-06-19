@@ -5,9 +5,9 @@ import AuthService from "../../app/services/AuthService";
 import {UserMocker} from "../mockers/UserMocker";
 import TokenService from "../../app/services/TokenService";
 import TestSetup from "../TestSetup";
-import {TokenMocker} from "../mockers/TokenMocker";
 import bcrypt from 'bcryptjs'
 import {BlacklistTokenMocker} from "../mockers/BlacklistTokenMocker";
+import MailerService from "../../app/services/MailerService";
 
 describe('Auth Service Test', ()=> {
     beforeAll(async ()=>{
@@ -17,7 +17,8 @@ describe('Auth Service Test', ()=> {
     const setUp = ()=>{
         const userRepo = sinon.createStubInstance(UserRepository)
         const tokenBlackListRepo = sinon.createStubInstance(TokenBlackListRepository)
-        const authService = new AuthService(userRepo, tokenBlackListRepo);
+        const mailService = sinon.createStubInstance(MailerService)
+        const authService = new AuthService(userRepo, tokenBlackListRepo, mailService);
         return {
             userRepo,
             tokenBlackListRepo,
@@ -36,7 +37,7 @@ describe('Auth Service Test', ()=> {
     it('should create new user', async function () {
         const {userRepo, authService} = setUp();
         const user = UserMocker.make();
-        const token = TokenMocker.make(user.id);
+        const token = TokenService.generateToken(user.id);
         userRepo.addUser
             .withArgs(user)
             .resolves(user)
@@ -50,7 +51,7 @@ describe('Auth Service Test', ()=> {
     it('should login user', async function () {
         const {userRepo, authService} = setUp();
         const user = UserMocker.make();
-        const token = TokenMocker.make(user.id);
+        const token = TokenService.generateToken(user.id);
         userRepo.find
             .withArgs(user.email)
             .resolves(user)
@@ -87,7 +88,7 @@ describe('Auth Service Test', ()=> {
     it('should logout user', async function () {
         const {tokenBlackListRepo, authService} = setUp();
         const user = UserMocker.make();
-        const token = TokenMocker.make(user.id);
+        const token = TokenService.generateToken(user.id);
         const tokenBlackList = BlacklistTokenMocker.make(token)
         tokenBlackListRepo.add
             .withArgs(token)
@@ -100,7 +101,7 @@ describe('Auth Service Test', ()=> {
     it('should return true if token is blacklisted', async function () {
         const {tokenBlackListRepo, authService} = setUp();
         const user = UserMocker.make();
-        const token = TokenMocker.make(user.id);
+        const token = TokenService.generateToken(user.id);
         const tokenBlackList = BlacklistTokenMocker.make(token)
         tokenBlackListRepo.find
             .withArgs(token)
@@ -113,7 +114,7 @@ describe('Auth Service Test', ()=> {
     it('should return false if token is not blacklisted', async function () {
         const {tokenBlackListRepo, authService} = setUp();
         const user = UserMocker.make();
-        const token = TokenMocker.make(user.id);
+        const token = TokenService.generateToken(user.id);
         tokenBlackListRepo.find
             .withArgs(token)
 

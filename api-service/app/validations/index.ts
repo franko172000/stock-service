@@ -17,3 +17,11 @@ export const queryParamValidation = {
             .required()
     }),
 }
+
+export const passwordReset = {
+    body: Joi.object({
+        email: Joi.string()
+            .email()
+            .required()
+    }),
+}

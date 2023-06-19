@@ -1,7 +1,12 @@
-import connection from "../database/connection";
+import connection from "./test.db-config";
+
 export default class TestSetup {
     static async initDb(){
-        await connection.authenticate();
+        try{
+            await connection.sync();
+        }catch (err){
+            console.log(err)
+        }
     }
     static async closeDb(){
         await connection.close();

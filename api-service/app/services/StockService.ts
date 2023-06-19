@@ -10,7 +10,7 @@ export default class StockService{
 
     async getStock(code: string, userId: number): Promise<IStockResponse | null>{
         try{
-            const {data} = await axios.get(`${process.env.STOCK_SERVICE_BASE_URL}/stock?code=${code}`)
+            const {data} = await axios.get(`${process.env.STOCK_SERVICE_BASE_URL}/api/internal/stock?code=${code}`)
             //save record to db
             const stock = await this.stockRepo.add({
                 name: data.name,
@@ -24,13 +24,14 @@ export default class StockService{
                 volume: data.volume
             }, userId);
 
-            const  { name, high,low, symbol, close } = stock
+            const  { name, high,low, symbol, close, open } = stock
             return {
                 name,
                 high,
                 low,
                 symbol,
                 close,
+                open
             } as IStockResponse
         }catch (err: any){
             throw new AppError({message: err.message})

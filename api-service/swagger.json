@@ -1,0 +1,320 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "REST API for Swagger Documentation",
+    "version": "1.0.0"
+  },
+  "schemes": ["http"],
+  "servers": [{ "url": "http://localhost:3000/" }],
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "summary": "Creates new account",
+        "description": "Creates new account",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateUserResponseBody"
+                }
+              }
+            }
+          },
+          "404": { "description": "Not found" },
+          "500": { "description": "Internal server error" }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "summary": "Logs in existing user",
+        "description": "Logs in existing user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateUserResponseBody"
+                }
+              }
+            }
+          },
+          "404": { "description": "Not found" },
+          "500": { "description": "Internal server error" },
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid login credentials"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/reset-password": {
+      "post": {
+        "summary": "Resets user's password",
+        "description": "Resets user's password",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["email"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "email of user"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": { "description": "Not found" },
+          "500": { "description": "Internal server error" }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "summary": "Logs out user",
+        "description": "Logs out user",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": { "description": "Not found" },
+          "500": { "description": "Internal server error" },
+          "401": {
+            "description": "Unauthenticated"
+          }
+        }
+      }
+    },
+    "/stock": {
+      "get": {
+        "summary": "Gets company stock prices",
+        "description": "Gets company stock prices",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/stock"
+                }
+              }
+            }
+          },
+          "404": { "description": "Not found" },
+          "500": { "description": "Internal server error" }
+        }
+      }
+    },
+    "/stock/stats": {
+      "get": {
+        "summary": "Gets stock statistics",
+        "description": "Gets stock statistics",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/stockStats"
+                }
+              }
+            }
+          },
+          "404": { "description": "Not found" },
+          "500": { "description": "Internal server error" }
+        }
+      }
+    },
+    "/stock/history": {
+      "get": {
+        "summary": "Gets stock history",
+        "description": "Gets stock history",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/stockHistory"
+                }
+              }
+            }
+          },
+          "404": { "description": "Not found" },
+          "500": { "description": "Internal server error" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateUserResponseBody": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjg2ODc0MDYwLCJleHAiOjE2ODc0Nzg4NjB9.GRIYnMm"
+          }
+        }
+      },
+      "CreateUser": {
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "name of user"
+          },
+          "email": {
+            "type": "string",
+            "example": "email of user"
+          },
+          "password": {
+            "type": "string",
+            "example": "password of user"
+          }
+        }
+      },
+      "LoginUser": {
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "email of user"
+          },
+          "password": {
+            "type": "string",
+            "example": "password of user"
+          }
+        }
+      },
+      "stock": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "APPLE"
+          },
+          "symbol": {
+            "type": "string",
+            "example": "AAPL.US"
+          },
+          "open": {
+            "type": "integer",
+            "example": 123.66
+          },
+          "high": {
+            "type": "integer",
+            "example": 123.66
+          },
+          "low": {
+            "type": "integer",
+            "example": 123.66
+          },
+          "close": {
+            "type": "integer",
+            "example": 123.66
+          }
+        }
+      },
+      "stockHistory": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "APPLE"
+          },
+          "symbol": {
+            "type": "string",
+            "example": "AAPL.US"
+          },
+          "open": {
+            "type": "integer",
+            "example": 123.66
+          },
+          "high": {
+            "type": "integer",
+            "example": 123.66
+          },
+          "low": {
+            "type": "integer",
+            "example": 123.66
+          },
+          "close": {
+            "type": "integer",
+            "example": 123.66
+          },
+          "volume": {
+            "type": "integer",
+            "example": 123.66
+          },
+          "date": {
+            "type": "string",
+            "example": "2021-04-01T19:20:30Z"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2021-04-01T19:20:30Z"
+          }
+        }
+      },
+      "stockStats": {
+        "properties": {
+          "stock": {
+            "type": "string",
+            "example": "APPLE"
+          },
+          "times_requested": {
+            "type": "integer",
+            "example": 123.66
+          }
+        }
+      }
+    }
+  }
+}

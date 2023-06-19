@@ -14,7 +14,7 @@ export class StockMocker {
       low: ch.floating(),
       close: ch.floating(),
       time: ch.timestamp(),
-      date: ch.date(),
+      date: ch.date().toDateString(),
       volume: ch.integer({ min: 0, max: 20000 })
     })
   }
