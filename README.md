@@ -17,6 +17,8 @@ You can change the port number by changing the ``port`` variable in ``docker-com
 The api documentation can be found here <br />
 [http://localhost:8090/api-docs](http://localhost:8090/api-docs)
 
+#### Mail Server
+[http://localhost:8025](http://localhost:8025)
 ---
 
 ## App Setup via NPM commands
