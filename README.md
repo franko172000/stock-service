@@ -1,4 +1,4 @@
-# Node.js Challenge
+# Simple Microservice Using Node.js and Docker
 
 ## App Set up using docker
 Clone this repository, navigate to the repository root and run the following commands.
