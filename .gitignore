@@ -113,6 +113,10 @@ dist
 # JetBrains IDE preferences
 .idea
 
+api-service/build
+
+stock-service/build
+
 # yarn v2
 .yarn/cache
 .yarn/unplugged

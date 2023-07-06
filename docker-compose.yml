@@ -12,6 +12,7 @@ services:
             - jobsity
         ports:
             - '8090:8090'
+        command: bash -c "npm run build && npm start"
         depends_on:
             mysql-db:
                 condition: service_healthy

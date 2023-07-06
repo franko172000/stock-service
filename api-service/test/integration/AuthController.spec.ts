@@ -1,7 +1,6 @@
 import app from '../../app'
 import request from 'supertest'
 import Chance from "chance";
-import chai from 'chai'
 import TestSetup from "../TestSetup";
 import {UserMocker} from "../mockers/UserMocker";
 import TokenBlacklist from "../../database/model/TokenBlacklist";
